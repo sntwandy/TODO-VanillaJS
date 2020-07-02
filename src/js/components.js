@@ -1,3 +1,5 @@
+import '../css/components.css';
+
 export const greeting = ( name ) => {
     console.log('Creating h1 etiquet');
     const h1 = document.createElement('h1');
