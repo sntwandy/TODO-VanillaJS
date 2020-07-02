@@ -2,14 +2,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     optimization: {
         minimizer: [ new OptimizeCssAssetsPlugin() ]
     },
+    output: {
+        filename: 'main.[contentHash].js',
+    },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                    }
+                ]
+            },
             {
                 test: /\.(png|jpge?g|gif)$/i,
                 use: [
@@ -41,7 +54,7 @@ module.exports = {
                 loader: 'html-loader',
                 options: {
                     attributes: false,
-                    minimize: false,
+                    minimize: true,
             },
         }
     ]
@@ -52,7 +65,7 @@ module.exports = {
             filename: './index.html',
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
+            filename: '[name].[contentHash].css',
             ignoreOrder: false,
         }),
         new CopyWebpackPlugin({
@@ -63,5 +76,6 @@ module.exports = {
                 }
             ]
         }),
+        new MinifyPlugin(),
     ]
 };
