@@ -1,9 +1,22 @@
-import '../css/components.css';
+// HTML references
+const $todoList = document.querySelector('.todo-list');
 
-export const greeting = ( name ) => {
-    console.log('Creating h1 etiquet');
-    const h1 = document.createElement('h1');
-    h1.innerHTML = `Hi, ${name}`;
+export const createTodoHtml = (todo) => {
+    const view = `
+        <li class="${ (todo.completed) ? 'completed' : ''}" data-id="${todo.id}">
+			<div class="view">
+				<input class="toggle" type="checkbox" ${ (todo.completed) ? 'checked' : '' }>
+                <label>${todo.task}</label>
+				<button class="destroy"></button>
+			</div>
+            <input class="edit" value="Create a TodoMVC template">
+		</li>
+    `;
 
-    document.body.append(h1);
+    const div = document.createElement('div');
+    div.innerHTML = view;
+
+    $todoList.append(div.firstElementChild);
+
+    return $todoList;
 };
