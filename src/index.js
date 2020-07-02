@@ -1,6 +1,6 @@
-import { greeting } from './js/components';
 import './styles.css';
+import { TODO } from './classes/TODO.class';
 
-const megan = 'Megan E.'
+const task = new TODO('Learn JS');
 
-greeting(megan);
+console.log({task});
