@@ -31,9 +31,22 @@ $inputTodo.addEventListener('keyup', event => {
         const newTodo = new Todo($inputTodo.value);
         todoList.newTodo(newTodo);
 
-        console.log(todoList);
         createTodoHtml(newTodo);
 
         $inputTodo.value = '';
     }
-})
+});
+
+$todoList.addEventListener('click', (event) => {
+    const eventName = event.target.localName; // input, label, button
+    const todoElement = event.target.parentElement.parentElement;
+    const todoId = todoElement.getAttribute('data-id');
+
+    if (eventName.includes('input')) { // click check
+        todoList.makeCompleted(todoId);
+        todoElement.classList.toggle('completed');
+    } else if (eventName.includes('button')) {
+        todoList.deleteTodo(todoId);
+        $todoList.removeChild(todoElement);
+    }
+});
