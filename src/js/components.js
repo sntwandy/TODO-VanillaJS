@@ -4,6 +4,7 @@ import { todoList } from '../index';
 // HTML references
 const $todoList = document.querySelector('.todo-list');
 const $inputTodo = document.querySelector('.new-todo');
+const $btnDelete = document.querySelector('.clear-completed');
 
 export const createTodoHtml = (todo) => {
     const view = `
@@ -50,3 +51,15 @@ $todoList.addEventListener('click', (event) => {
         $todoList.removeChild(todoElement);
     }
 });
+
+$btnDelete.addEventListener('click', () => {
+    todoList.deleteCompleted();
+
+    for (let i = $todoList.children.length-1; i >=0; i--) {
+        const element = $todoList.children[i];
+
+        if (element.classList.contains('completed')) {
+            $todoList.removeChild(element);
+        }
+    }
+})
