@@ -1,14 +1,17 @@
 export class TodoList {
     constructor() {
-        this.todos = [];
+        // this.todos = [];
+        this.loadLocalStorage();
     };
 
     newTodo(todo) {
         this.todos.push(todo);
+        this.saveLocalStorage();
     };
 
     deleteTodo(id) {
         this.todos = this.todos.filter(todo => todo.id != id);
+        this.saveLocalStorage();
     };
 
     makeCompleted(id) {
@@ -19,9 +22,22 @@ export class TodoList {
                 break;
             }
         }
+        this.saveLocalStorage();
     };
 
     deleteCompleted() {
         this.todos = this.todos.filter(todo => !todo.completed);
+        this.saveLocalStorage();
+    };
+
+    loadLocalStorage() {
+        this.todos = localStorage.getItem('todo') ?
+                JSON.parse(localStorage.getItem('todo'))
+            :
+                [];
+    };
+
+    saveLocalStorage() {
+        localStorage.setItem('todo', JSON.stringify(this.todos));
     };
 };
