@@ -5,6 +5,8 @@ import { todoList } from '../index';
 const $todoList = document.querySelector('.todo-list');
 const $inputTodo = document.querySelector('.new-todo');
 const $btnDelete = document.querySelector('.clear-completed');
+const $ulFilters = document.querySelector('.filters');
+const $anchorFilter = document.querySelectorAll('.filtro');
 
 export const createTodoHtml = (todo) => {
     const view = `
@@ -63,3 +65,30 @@ $btnDelete.addEventListener('click', () => {
         }
     }
 })
+
+$ulFilters.addEventListener('click', event => {
+    const filter = event.target.text;
+    if (!filter) { return };
+
+    $anchorFilter.forEach(element => element.classList.remove('selected'));
+    event.target.classList.add('selected');
+
+    for (const element of $todoList.children) {
+        element.classList.remove('hidden');
+
+        const completed = element.classList.contains('completed');
+
+        switch(filter) {
+            case 'Pendientes':
+                if (completed) {
+                    element.classList.add('hidden');
+                }
+                break;
+            case 'Completados':
+                if (!completed) {
+                    element.classList.add('hidden');
+                }
+                break;
+        }
+    }
+});
